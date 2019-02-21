@@ -1,34 +1,57 @@
 const express = require('express');
 const dbService = require('../dbaccess/database-conn');
-const dbConfig = require('../config/dbConfig');
+const dbConfig = require('../config/dbconfig');
 const router = new express.Router();
 
 router.get('/', (req, res, next) => {
     res.send('Reached database api');
 });
 
+// Get all ingredients api
 router.get('/ingredients', async(req, res, next) => {
     let items = await dbService.simpleExecute('SELECT * FROM INGREDIENTS_LIST');
     res.send(items.rows);
 });
 
-router.get('/locations', async(req, res, next) => {
-    let items = await dbService.simpleExecute('SELECT * FROM LOCATIONS');
-    res.send(items.rows);
-});
-
-/*router.get('/ingredients/:id', async(req, res, next) => {
+// Get particular ingredient api based on INGRE_ID: e.g INGRE_ID = MMCS-02
+router.get('/ingredients/:id', async(req, res, next) => {
     let id = req.params.id;
-    let selectQuery = 'SELECT * FROM ROBOTICS.PRODUCTS WHERE id = :id';
+    let selectQuery = 'SELECT * FROM INGREDIENTS_LIST  WHERE INGRE_ID = :id';
     let result = await dbService.simpleExecute(selectQuery, [id]);
     let response = {};
     if(result.rows.length > 0) {
         response = result.rows[0];
     }
-
     res.send(response);
 });
 
+// Get all locations 
+router.get('/locations', async(req, res, next) => {
+    let items = await dbService.simpleExecute('SELECT * FROM LOCATIONS');
+    res.send(items.rows);
+});
+
+// Get all ondemand locations 
+router.get('/on-demand-locations', async(req, res, next) => {
+    let items = await dbService.simpleExecute('SELECT * FROM(select * from locations where ingre_id in (select ingre_id from MAMA_MARY_INVENTORY where isOnDemand= \'TRUE\')) x JOIN (select ingre_id, ingre_name from ingredients_list where ingre_id in (select ingre_id from MAMA_MARY_INVENTORY where isOnDemand= \'TRUE\')) y ON x.ingre_id = y.ingre_id');
+    res.send(items.rows);
+});
+
+// Get one location based on id, e.g. id
+router.get('/locations/:id', async(req, res, next) => {
+    let id = req.params.id;
+    let selectQuery = 'SELECT * FROM LOCATIONS WHERE id = :id';
+    let result = await dbService.simpleExecute(selectQuery, [id]);
+    let response = {};
+    if(result.rows.length > 0) {
+        response = result.rows[0];
+    }
+    res.send(response); 
+});
+
+
+
+/*
 router.put('/ingredients/:id', async(req, res, next) => {
     let id = req.params.id;
     let type = req.body.type;

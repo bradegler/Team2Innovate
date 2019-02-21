@@ -1,5 +1,5 @@
 const oracledb = require('oracledb');
-const dbConfig = require('../config/dbConfig.js');
+const dbConfig = require('../config/dbconfig.js');
 
 const initialize = async() => {
     console.log(`Initializing pool`);
