@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ingredient-api
+  labels:
+    commit: "1"
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: ingredient-api
+  template:
+    metadata:
+      labels:
+        app: ingredient-api
+        commit: "1"
+    spec:
+      containers:
+      - name: ingredient-api-container
+        image: iad.ocir.io/codeatcustomer1/team2/ingredient-api:0.0.2
+        imagePullPolicy: Always
+        ports:
+        - name: app-port
+          containerPort: 3050
+          protocol: TCP
+      imagePullSecrets:
+        - name: ocir
