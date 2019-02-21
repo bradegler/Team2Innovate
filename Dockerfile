@@ -31,18 +31,20 @@ RUN LIBS="libociei.so libons.so libnnz12.so libclntshcore.so.12.1 libclntsh.so.1
     # rm ${CLIENT_FILENAME}
 
 # get node app from git repo
-RUN git clone https://github.com/lindazhn/Team2Innovate.git
-RUN mkdir wallet_NODEAPPDB2
-COPY ./wallet_NODEAPPDB2 ./wallet_NODEAPPDB2
+WORKDIR /opt/oracle/lib/team2api
+#RUN git clone https://github.com/lindazhn/Team2Innovate.git
+COPY . .
+#RUN mkdir wallet_NODEAPPDB2
+RUN mv ./wallet_TEAM2 ./wallet_NODEAPPDB2
 
 #set env variables
 ENV ORACLE_BASE /opt/oracle/lib/instantclient_12_1
 ENV LD_LIBRARY_PATH /opt/oracle/lib/instantclient_12_1
-ENV TNS_ADMIN /opt/oracle/lib/wallet_NODEAPPDB2
+ENV TNS_ADMIN /opt/oracle/lib/team2api/wallet_NODEAPPDB2
 ENV ORACLE_HOME /opt/oracle/lib/instantclient_12_1
-ENV PATH /opt/oracle/lib/instantclient_12_1:/opt/oracle/lib/wallet_NODEAPPDB2:/opt/oracle/lib/Team2Innovate/ingredientsServices:/opt/oracle/lib/Team2Innovate/aone/ingredientsServices:$PATH
+ENV PATH /opt/oracle/lib/instantclient_12_1:/opt/oracle/lib/wallet_NODEAPPDB2:/opt/oracle/lib/team2api/ingredientsServices:/opt/oracle/lib/team2api/aone/ingredientsServices:$PATH
 
-RUN cd /opt/oracle/lib/Team2Innovate/ingredientsServices && \
+RUN cd /opt/oracle/lib/team2api/ingredientsServices && \
 	npm install oracledb
 EXPOSE 3050
-CMD [ "node", "/opt/oracle/lib/Team2Innovate/ingredientsServices/index.js" ]
+CMD [ "node", "/opt/oracle/lib/team2api/ingredientsServices/index.js" ]
