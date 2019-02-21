@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const webServer = require('./web-server.js');
 const databaseConn = require('./dbaccess/database-conn.js');
-const dbConfig = require('./config/dbConfig.js');
+const dbConfig = require('./config/dbconfig.js');
 
 async function startup() {
 	console.log('Starting application');

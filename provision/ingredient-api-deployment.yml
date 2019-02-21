@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: ingredient-api-container
-        image: iad.ocir.io/codeatcustomer1/team2/ingredient-api:0.0.2
+        image: iad.ocir.io/codeatcustomer1/team2/ingredient-api:0.0.3
         imagePullPolicy: Always
         ports:
         - name: app-port
