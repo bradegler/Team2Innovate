@@ -1,0 +1,20 @@
+{
+  "name": "ingredientsservices",
+  "version": "1.0.0",
+  "description": "\"Ingredients REST API(s).\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Team2 - Linda",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.2",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.3",
+    "morgan": "^1.9.1",
+    "oracledb": "^3.0.1",
+    "request": "^2.87.0"
+  }
+}
