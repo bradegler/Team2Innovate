@@ -50,11 +50,12 @@ router.get('/locations/:id', async(req, res, next) => {
 });
 
 
-// Get all Designed pizza 
+// Get one model pizza 
 router.get('/modelpizza/:id', async(req, res, next) => {
-    let query = `SELECT * FROM MODELPIZZA where pizza_id= \'PIZZA-01\'`;
-    let items = await dbService.simpleExecute(query);
-    res.send(items.rows);
+    let id = req.params.id;
+    let query = `SELECT * FROM MODELPIZZA where pizza_id= :id`;
+    let result = await dbService.simpleExecute(query, [id]);
+    res.send(result.rows);
 });
 
 router.post('/modelpizza', async(req, res, next) => {
